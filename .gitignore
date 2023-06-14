@@ -1,0 +1,3 @@
+# Project exclude paths
+/my_springboot/zjj/target/
+/my_springboot/zjj-web/node_modules/

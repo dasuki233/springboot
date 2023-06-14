@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zjj.mapper.NewsMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.zjj.entity.News">
+        <id column="newsId" property="newsid" />
+        <result column="title" property="title" />
+        <result column="mains" property="mains" />
+        <result column="file" property="file" />
+        <result column="newsdate" property="newsdate" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        newsId, title, mains, file, newsdate
+    </sql>
+
+
+    <select id="pageCC" resultType="com.zjj.entity.News">
+        select * from news where 1=1
+        <if test="ew != null">
+            <if test="ew.nonEmptyOfWhere">
+                AND
+            </if>
+            ${ew.sqlSegment}
+        </if>
+    </select>
+</mapper>

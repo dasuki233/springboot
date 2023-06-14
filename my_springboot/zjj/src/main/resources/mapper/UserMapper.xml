@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zjj.mapper.UserMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.zjj.entity.User">
+        <id column="id" property="id" />
+        <result column="no" property="no" />
+        <result column="name" property="name" />
+        <result column="password" property="password" />
+        <result column="age" property="age" />
+        <result column="sex" property="sex" />
+        <result column="phone" property="phone" />
+        <result column="role_id" property="roleId" />
+        <result column="isValid" property="isvalid" />
+        <result column="academyId" property="academyid" />
+        <result column="collegesId" property="collegesid" />
+        <result column="cname" property="cname" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id, no, name, password, age, sex, phone, role_id, isValid, academyId
+    </sql>
+
+    <select id="pageC" resultType="com.zjj.entity.User">
+        select * from user
+    </select>
+
+    <select id="pageCC" resultType="com.zjj.entity.User">
+        select * from user, colleges  where user.academyId = colleges.collegesId
+          <if test="ew != null">
+              <if test="ew.nonEmptyOfWhere">
+                  AND
+              </if>
+              ${ew.sqlSegment}
+          </if>
+    </select>
+
+
+
+</mapper>

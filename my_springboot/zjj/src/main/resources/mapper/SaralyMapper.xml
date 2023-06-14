@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zjj.mapper.SaralyMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.zjj.entity.Saraly">
+        <id column="saralyId" property="saralyid" />
+        <result column="jobId" property="jobid" />
+        <result column="sid" property="sid" />
+        <result column="sdate" property="sdate" />
+        <result column="money" property="money" />
+        <result column="money" property="money" />
+        <result column="no" property="no" />
+        <result column="name" property="name" />
+        <result column="jobname" property="jobname" />
+        <result column="clazz" property="clazz" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        saralyId, jobId, sid, sdate, money, no, name, jobname, clazz
+    </sql>
+
+    <select id="pageCC" resultType="com.zjj.entity.Saraly">
+        select * from saraly,student, job, clazz
+        where saraly.jobId = job.jobId and saraly.sid = student.sId and student.clazzId = clazz.clzId
+               <if test="ew != null">
+            <if test="ew.nonEmptyOfWhere">
+                AND
+            </if>
+            ${ew.sqlSegment}
+        </if>
+    </select>
+
+    <select id="studentSalary" resultType="com.zjj.entity.Saraly">
+        select * from saraly,student, job, clazz
+        where saraly.jobId = job.jobId and saraly.sid = student.sId and student.clazzId = clazz.clzId
+        <if test="sid != null">
+            and saraly.sid = #{sid}
+        </if>
+        <if test="ew != null">
+            <if test="ew.nonEmptyOfWhere">
+                AND
+            </if>
+            ${ew.sqlSegment}
+        </if>
+    </select>
+
+    <select id="PaysalaryList" resultType="com.zjj.entity.Saraly">
+        SELECT
+        *
+        FROM
+        student a,
+        job b,
+        clazz c,
+        joinjob d
+        where a.clazzId = c.clzId and a.sId = d.sid and d.jobid = b.jobId and d.states = '审核已通过'
+        <if test="ew != null">
+            <if test="ew.nonEmptyOfWhere">
+                AND
+            </if>
+            ${ew.sqlSegment}
+        </if>
+    </select>
+
+    <update id="pay">
+        update saraly set money = money + #{money} where saralyid = #{saralyid}
+    </update>
+</mapper>

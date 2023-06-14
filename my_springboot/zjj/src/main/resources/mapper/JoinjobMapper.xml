@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zjj.mapper.JoinjobMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.zjj.entity.Joinjob">
+        <id column="joinjobId" property="joinjobid" />
+        <result column="jobid" property="jobid" />
+        <result column="remark" property="remark" />
+        <result column="jobDate" property="jobdate" />
+        <result column="sid" property="sid" />
+        <result column="states" property="states" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        joinjobId, jobid, remark, jobDate, sid, states
+    </sql>
+
+    <select id="pageCC" resultType="com.zjj.entity.JoinJobVO">
+        SELECT
+        *
+        FROM
+        joinjob a, job b,student c
+        where a.jobId = b.jobId and a.sid= c.sId and b.tId = #{tId}
+        <if test="jobname != null">
+            and b.jobname like concat('%', #{jobname}, '%')
+        </if>
+        <if test="name != null">
+            and c.name like concat(#{name}, '%')
+        </if>
+
+    </select>
+
+    <!--    模糊查询-->
+    <select id="pageCC1" resultType="com.zjj.entity.Job">
+        select * from job where states = '进行中'
+        <if test="ew != null">
+            <if test="ew.nonEmptyOfWhere">
+                AND
+            </if>
+            ${ew.sqlSegment}
+        </if>
+    </select>
+
+
+<!--    学生查看在自己的申请-->
+    <select id="joinjobStudent" resultType="com.zjj.entity.JoinJobVO">
+        SELECT
+        *
+        FROM
+        joinjob a, job b,student c
+        where a.jobId = b.jobId and a.sid= c.sId and c.sId = #{sid}
+        <if test="jobname != null">
+            and b.jobname like concat('%', #{jobname}, '%')
+        </if>
+
+
+
+    </select>
+</mapper>

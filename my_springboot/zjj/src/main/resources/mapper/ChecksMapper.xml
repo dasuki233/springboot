@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zjj.mapper.ChecksMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.zjj.entity.Checks">
+        <id column="checkId" property="checkid"/>
+        <result column="jobId" property="jobid"/>
+        <result column="jdate" property="jdate"/>
+        <result column="sId" property="sid"/>
+        <result column="checkes" property="checkes"/>
+        <result column="leavess" property="leavess"/>
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        checkId
+        , jobId, jdate, sId, checkes, leavess
+    </sql>
+
+
+    <select id="pageCC" resultType="com.zjj.entity.Checks">
+        SELECT
+        a.checkId,job.jobId,a.jdate,a.sId,clazz.clazz,a.checkes,job.jobname,student.name,student.no,a.leavess
+        FROM
+        job,checks a,student, clazz
+        where a.sId = student.sId and a.jobId = job.jobId and student.clazzId = clazz.clzId
+        <if test="starttime != null and endtime != null">
+          and a.jdate between #{starttime} and #{endtime}
+        </if>
+        <if test="ew != null">
+            <if test="ew.nonEmptyOfWhere">
+                AND
+            </if>
+            ${ew.sqlSegment}
+        </if>
+    </select>
+
+    <!--学生出勤情况本周查看-->
+    <select id="weekCheck" resultType="com.zjj.entity.Checks">
+        SELECT
+            s.sid,
+            s.NAME,
+            DATE_FORMAT( c.jdate, '%Y-%m-%d' ) AS jdate,
+	SUM( c.checkes ) AS checkes,
+	SUM( CASE WHEN c.leavess > 0 THEN c.leavess ELSE 0 END ) AS leavess
+        FROM
+            student s
+            INNER JOIN checks c ON s.sid = c.sId
+        where YEARWEEK(date_format(jdate, '%Y-%m-%d'))=YEARWEEK(now())
+            <if test="studentid != null">
+        and s.sid = #{studentid}
+            </if>
+        GROUP BY
+            s.sid,
+            DATE_FORMAT( c.jdate, '%Y-%m-%d' )
+    </select>
+
+    <!--学生迟到本周查看-->
+    <select id="monthCheck" resultType="com.zjj.entity.Checks">
+        SELECT
+        s.sid,
+        s.NAME,
+        DATE_FORMAT( c.jdate, '%Y-%m-%d' ) AS jdate,
+        SUM( c.checkes ) AS checkes,
+        SUM( CASE WHEN c.leavess > 0 THEN c.leavess ELSE 0 END ) AS leavess
+        FROM
+        student s
+        INNER JOIN checks c ON s.sid = c.sId
+        where YEAR(jdate) = YEAR(CURDATE()) AND MONTH(jdate) = MONTH(CURDATE())
+        <if test="studentid != null">
+            and s.sid = #{studentid}
+        </if>
+        GROUP BY
+        s.sid,
+        DATE_FORMAT( c.jdate, '%Y-%m-%d' )
+    </select>
+</mapper>

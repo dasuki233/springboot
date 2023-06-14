@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zjj.mapper.JobMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.zjj.entity.Job">
+        <id column="jobId" property="jobid" />
+        <result column="jobname" property="jobname" />
+        <result column="counts" property="counts" />
+        <result column="applicants" property="applicants" />
+        <result column="description" property="description" />
+        <result column="states" property="states" />
+        <result column="tId" property="tid" />
+        <result column="jdate" property="jdate" />
+        <result column="overTime" property="overTime" />
+        <result column="adminId" property="adminid" />
+        <result column="files" property="files" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        jobId, jobname, counts, applicants, description, states, tId, jdate, overTime, adminId, files
+    </sql>
+
+<!--    如果截止时间到了,修改状态states-->
+    <update id="F5Time">
+        update job set states = '已结束'  where DATEDIFF(now(),overTime) > 0
+    </update>
+
+    <insert id="saveForm">
+        insert into job(jobname,counts, description,tid, adminid,overTime,files) values(#{jobname},#{counts}, #{description},#{tid}, #{adminid},#{overTime},#{files})
+    </insert>
+
+<!--    模糊查询-->
+    <select id="pageCC" resultType="com.zjj.entity.Job">
+        select * from job where 1=1
+        <if test="ew != null">
+            <if test="ew.nonEmptyOfWhere">
+                AND
+            </if>
+            ${ew.sqlSegment}
+        </if>
+    </select>
+</mapper>

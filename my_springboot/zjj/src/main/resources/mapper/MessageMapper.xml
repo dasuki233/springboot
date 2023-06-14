@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zjj.mapper.MessageMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.zjj.entity.Message">
+        <id column="id" property="id" />
+        <result column="title" property="title" />
+        <result column="text" property="text" />
+        <result column="answer" property="answer" />
+        <result column="sid" property="sid" />
+        <result column="msgDate" property="msgDate" />
+        <result column="answerDate" property="answerDate" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id, title, text, answer, sid, msgDate, answerDate
+    </sql>
+
+    <select id="pageCC" resultType="com.zjj.entity.Message">
+        select * from message, student where message.sid = student.sId
+        <if test="ew != null">
+            <if test="ew.nonEmptyOfWhere">
+                AND
+            </if>
+            ${ew.sqlSegment}
+        </if>
+    </select>
+
+<!--    学生查询自己留言用 根据id识别-->
+    <select id="studentMessage" resultType="com.zjj.entity.Message">
+        select * from message, student where message.sid = student.sId
+        <if test="sid != null">
+            and message.sid = #{sid}
+        </if>
+        <if test="ew != null">
+            <if test="ew.nonEmptyOfWhere">
+                AND
+            </if>
+            ${ew.sqlSegment}
+        </if>
+    </select>
+
+
+</mapper>
