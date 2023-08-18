@@ -1,5 +1,4 @@
 # 勤工助学管理系统
----
 ## 系统开发具体环境
 - 开发环境：IntelliJ IDEA Ultimate
 - 前端框架：[ElementUI]{https://element.eleme.io/#/zh-CN}
