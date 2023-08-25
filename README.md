@@ -13,3 +13,6 @@
 - SpringBoot 2.6.3
 - MyBatis-Plus 3.4.1
 - Maven 3.6.3
+
+## pytest+selenium+allure测试
+对本系统的测试：[点击这里](https://github.com/dasuki233/qgzxtest.git)
