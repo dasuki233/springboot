@@ -11,7 +11,7 @@
  Target Server Version : 80029
  File Encoding         : 65001
 
- Date: 19/08/2023 19:09:09
+ Date: 01/09/2023 04:15:23
 */
 
 SET NAMES utf8mb4;
@@ -28,12 +28,13 @@ CREATE TABLE `admin`  (
   `password` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
   `role_id` int NULL DEFAULT NULL,
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 2 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 2 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of admin
 -- ----------------------------
 INSERT INTO `admin` VALUES (1, '123', '管理员', '123123', 0);
+INSERT INTO `admin` VALUES (2, 'admin', '管理员', 'admin', 0);
 
 -- ----------------------------
 -- Table structure for checks
@@ -51,15 +52,12 @@ CREATE TABLE `checks`  (
   INDEX `check_sno`(`sId`) USING BTREE,
   CONSTRAINT `check_job` FOREIGN KEY (`jobId`) REFERENCES `job` (`jobId`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `check_sno` FOREIGN KEY (`sId`) REFERENCES `student` (`sId`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE = InnoDB AUTO_INCREMENT = 37 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB AUTO_INCREMENT = 38 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of checks
 -- ----------------------------
-INSERT INTO `checks` VALUES (6, 9, '2023-03-13 00:17:34', 24, 3, 1);
-INSERT INTO `checks` VALUES (9, 9, '2023-03-13 00:17:36', 24, 2, 1);
 INSERT INTO `checks` VALUES (10, 11, '2023-03-14 00:17:38', 24, 3, 1);
-INSERT INTO `checks` VALUES (13, 9, '2023-03-14 00:17:38', 24, 3, 1);
 INSERT INTO `checks` VALUES (14, 10, '2023-03-15 00:17:39', 24, 3, 0);
 INSERT INTO `checks` VALUES (15, 10, '2023-03-13 08:02:37', 14, 2, 1);
 INSERT INTO `checks` VALUES (16, 106, '2023-03-13 08:02:37', 14, 2, 1);
@@ -95,7 +93,7 @@ CREATE TABLE `clazz`  (
   PRIMARY KEY (`clzId`) USING BTREE,
   INDEX `coId`(`cId`) USING BTREE,
   CONSTRAINT `coId` FOREIGN KEY (`cId`) REFERENCES `colleges` (`collegesId`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE = InnoDB AUTO_INCREMENT = 96 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 96 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of clazz
@@ -199,7 +197,7 @@ CREATE TABLE `colleges`  (
   `collegesId` int NOT NULL AUTO_INCREMENT COMMENT '学院外键',
   `cname` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL COMMENT '学院名字',
   PRIMARY KEY (`collegesId`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 17 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 18 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of colleges
@@ -248,8 +246,7 @@ CREATE TABLE `job`  (
 -- ----------------------------
 -- Records of job
 -- ----------------------------
-INSERT INTO `job` VALUES (9, '图书馆', 1, 3, '图书馆上班,工作轻松', '进行中', NULL, '2023-03-03 01:04:30', '2023-02-27 01:04:38', NULL, '1.png');
-INSERT INTO `job` VALUES (10, '图书馆1', 2, NULL, '图书馆上班,工作轻松', '未通过审核', NULL, '2023-03-07 18:19:54', '2023-11-11 00:00:00', 1, NULL);
+INSERT INTO `job` VALUES (10, '图书馆1', 2, NULL, '图书馆上班,工作轻松', '进行中', NULL, '2023-03-07 18:19:54', '2023-11-11 00:00:00', 1, NULL);
 INSERT INTO `job` VALUES (11, '图书馆2', 2, NULL, '图书馆上班,工作轻松', '未通过审核', NULL, '2023-03-07 18:23:29', '2023-11-11 00:00:00', 1, '1.png');
 INSERT INTO `job` VALUES (106, '食堂1', 1, NULL, '主要负责饭点帮助点单', '进行中', NULL, '2023-03-09 02:49:50', '2023-03-15 16:00:00', 1, NULL);
 INSERT INTO `job` VALUES (107, '食堂2', 2, NULL, '主要负责饭点帮助点单', '进行中', NULL, '2023-03-09 02:50:28', '2023-03-30 16:00:00', 1, '1.png');
@@ -282,7 +279,7 @@ CREATE TABLE `joinjob`  (
   INDEX `job_stu_id`(`sid`) USING BTREE,
   CONSTRAINT `job_id` FOREIGN KEY (`jobid`) REFERENCES `job` (`jobId`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `job_stu_id` FOREIGN KEY (`sid`) REFERENCES `student` (`sId`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE = InnoDB AUTO_INCREMENT = 33 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB AUTO_INCREMENT = 34 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of joinjob
@@ -317,7 +314,6 @@ INSERT INTO `joinjob` VALUES (29, 114, '我想申请这个岗位', '2023-03-22 0
 INSERT INTO `joinjob` VALUES (30, 124, '我想申请这个岗位', '2023-03-22 01:34:21', 14, '审核已通过');
 INSERT INTO `joinjob` VALUES (31, 115, '我想申请这个岗位', '2023-03-22 05:18:22', 14, '未审核');
 INSERT INTO `joinjob` VALUES (32, 124, '我想加入', '2023-05-11 18:24:46', 12, '审核已通过');
-INSERT INTO `joinjob` VALUES (33, 9, '想要上班', '2023-05-11 20:30:51', 12, '未审核');
 
 -- ----------------------------
 -- Table structure for menu
@@ -334,7 +330,7 @@ CREATE TABLE `menu`  (
   `menuComponent` varchar(200) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '无所谓',
   `menuIcon` varchar(100) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT 'icon',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 31 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB AUTO_INCREMENT = 32 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of menu
@@ -386,7 +382,7 @@ CREATE TABLE `message`  (
   PRIMARY KEY (`id`, `sid`) USING BTREE,
   INDEX `stu_id_msg`(`sid`) USING BTREE,
   CONSTRAINT `stu_id_msg` FOREIGN KEY (`sid`) REFERENCES `student` (`sId`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE = InnoDB AUTO_INCREMENT = 6 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB AUTO_INCREMENT = 7 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of message
@@ -456,15 +452,13 @@ CREATE TABLE `saraly`  (
   INDEX `job_id_stu`(`jobId`) USING BTREE,
   CONSTRAINT `job_id_stu` FOREIGN KEY (`jobId`) REFERENCES `job` (`jobId`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `money_stu_id` FOREIGN KEY (`sid`) REFERENCES `student` (`sId`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE = InnoDB AUTO_INCREMENT = 16 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB AUTO_INCREMENT = 17 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of saraly
 -- ----------------------------
 INSERT INTO `saraly` VALUES (2, 10, 12, '2023-05-11 18:38:23', 1200);
 INSERT INTO `saraly` VALUES (3, 106, 19, '2023-03-22 01:37:44', 1897);
-INSERT INTO `saraly` VALUES (4, 9, 15, '2023-03-10 23:45:37', 2224);
-INSERT INTO `saraly` VALUES (5, 9, 15, '2023-03-10 23:45:46', 2223);
 INSERT INTO `saraly` VALUES (6, 124, 15, '2023-03-22 02:15:49', 22);
 INSERT INTO `saraly` VALUES (7, 114, 14, '2023-03-22 02:16:14', 222);
 INSERT INTO `saraly` VALUES (8, 114, 14, '2023-03-22 02:46:54', 22);
@@ -496,7 +490,7 @@ CREATE TABLE `student`  (
   INDEX `no`(`no`) USING BTREE,
   INDEX `clz_id`(`clazzId`) USING BTREE,
   CONSTRAINT `clz_id` FOREIGN KEY (`clazzId`) REFERENCES `clazz` (`clzId`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE = InnoDB AUTO_INCREMENT = 25 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB AUTO_INCREMENT = 26 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of student
@@ -529,7 +523,7 @@ CREATE TABLE `user`  (
   PRIMARY KEY (`id`) USING BTREE,
   INDEX `cid`(`academyId`) USING BTREE,
   CONSTRAINT `cid` FOREIGN KEY (`academyId`) REFERENCES `colleges` (`collegesId`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE = InnoDB AUTO_INCREMENT = 88 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB AUTO_INCREMENT = 89 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of user

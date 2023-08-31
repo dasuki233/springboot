@@ -136,7 +136,6 @@ export default {
     },
     //上传表单
     realSaveForm() {
-      console.log('测速')
 
       this.$axios.post(this.$HTTPURL + '/job/saveForm', this.form).then(res => res.data).then(res => {
         if (res.code === 200) {
