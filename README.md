@@ -1,3 +1,6 @@
+## 效果图
+![效果图](qgzx.png)
+
 ## 项目简介
 本系统分为三个角色：管理员、教师、学生
 
@@ -15,4 +18,4 @@
 - Maven 3.6.3
 
 ## pytest+selenium+allure测试
-对本系统的测试：[点击这里](https://github.com/dasuki233/qgzxtest.git)
+对本系统的web自动化测试：[点击这里](https://github.com/dasuki233/qgzxtest.git)
